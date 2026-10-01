@@ -7,7 +7,7 @@ import datetime
 
 # --- 1. ตั้งค่าการเชื่อมต่อฐานข้อมูล (เปลี่ยนมาใช้ PostgreSQL บน Neon.tech แบบ Async) ---
 # 💡 ก๊อปปี้ลิงก์จาก Neon มาวางตรงนี้ และอย่าลืมเปลี่ยนคำหน้าสุดเป็น postgresql+asyncpg://
-DATABASE_URL = "postgresql+asyncpg://[ยูสเซอร์]:[รหัสผ่าน]@[เซิร์ฟเวอร์].neon.tech/neondb?sslmode=require"
+DATABASE_URL = "postgresql://neondb_owner:npg_kMxz7NqR1TwV@ep-holy-bread-b5cjqce8-pooler.c-7.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
