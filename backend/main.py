@@ -185,7 +185,10 @@ async def analyze_gait(
         await db.commit()
         return ai_result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        import traceback
+        traceback.print_exc()  # 👈 สั่งให้แฉ Error พิมพ์ลงใน Log ของ Render
+        print(f"🔥 Gemini Error Detail: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"AI Error: {str(e)}")
     finally:
         if temp_file_path and os.path.exists(temp_file_path): os.remove(temp_file_path)
 
