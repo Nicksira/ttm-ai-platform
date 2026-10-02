@@ -14,7 +14,7 @@ from google.genai import types
 
 from database import init_db, get_db, Clinic, Patient, GaitVisit
 
-client = genai.Client(api_key="AIzaSyCap_imutvI-d5vLfAX7Vxy4D_tblRW1Oo")
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
