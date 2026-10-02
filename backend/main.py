@@ -139,6 +139,22 @@ async def analyze_gait(
         print("Uploading video to Gemini API...")
         uploaded_file = client.files.upload(file=temp_file_path)
 
+        # --- ส่วนที่แก้ไข: เพิ่มระบบรอให้ Gemini ประมวลผลวิดีโอจนกว่าจะพร้อม (ACTIVE) ---
+        import asyncio
+        print("Waiting for Gemini to process the video...")
+        while True:
+            file_info = client.files.get(name=uploaded_file.name)
+            state = getattr(file_info.state, "name", file_info.state)
+            if state == "ACTIVE":
+                print("Video is ready for analysis!")
+                break
+            elif state == "FAILED":
+                raise Exception("Gemini video processing failed.")
+            
+            print(".", end="", flush=True)
+            await asyncio.sleep(3) # ให้ FastAPI รอ 3 วินาทีแบบไม่บล็อกการทำงานของเซิร์ฟเวอร์
+        # ----------------------------------------------------------------------
+
         prompt = f"""
         คุณคือ AI แพทย์แผนไทยผู้เชี่ยวชาญด้านเวชกรรมและเภสัชกรรม (TTM)
         ข้อมูลผู้ป่วย (Precision Data):
